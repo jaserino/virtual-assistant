@@ -1,17 +1,10 @@
 from datetime import datetime
+from email.mime import audio
 import webbrowser
-import pyttsx3
+import speech_recognition as sr 
+# importing all functions from actions file
+from actions import *
 
-# creating the speak method
-def speak(audio):
-    engine = pyttsx3.init()
-    # getting the current value of the engine property 
-    voices = engine.getProperty('voices')
-    # setting male or female voice [0] -male [1] -female
-    engine.setProperty('voice', voices[1].id)
-    # initializing va speech
-    engine.say(audio)
-    engine.runAndWait()
 
 # creating the request method 
 def Recieve_request():
@@ -34,24 +27,42 @@ def Recieve_request():
             webbrowser.open("www.twitch.tv")
             continue
         elif "what is the time" in request:
-            tellTime()
+            getTime()
             continue
-
+        elif "what is the day" in request:
+            getDay()
+            continue
+        elif "what is your name" in request:
+            speak("I am ahva, your personal assistant")
+            continue
+        elif "goodbye" in request:
+            speak("See you later")
+            exit()
+    
 
 # getting input from user and recognizing the command using speech recognition 
 def recieveCommand():
-    print("hello")
+    # using the recongnizer method for speech recognition
+    s = sr.Recognizer()
 
+    # using the microphone module to record command
+    with sr.Microphone() as source:
+        print("listening for command")
 
+        s.pause_threshold = 1
+        audio = s.listen(source)
 
-# simple introduction method to be called when assistant is powered on 
-def Hello():
-    speak("Hello, I am ava, Your desktop assistant. How may I help you?")
+        try:
+            print("loading...") 
+            Request = s.recognize_google(audio, language='en-US')
+            print(Request) 
+        
+        except Exception as e:
+            print(e)
+            speak("Im sorry, I did not understand that")
+            return "None"
+        
+        return Request
 
-def tellTime(self):
-    time = str(datetime.datetime.now())
-    print(time)
-    hour = time[11:13]
-    min = time[14:16]
-    self.speak(self, "The current time is "+ hour + min)
-    
+if __name__ == '__main__':
+    Recieve_request()
