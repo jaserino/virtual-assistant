@@ -1,6 +1,9 @@
 from datetime import datetime
 from email.mime import audio
+from unittest.mock import NonCallableMagicMock
 import webbrowser
+import wikipedia
+import os
 import speech_recognition as sr 
 # importing all functions from actions file
 from actions import *
@@ -26,11 +29,22 @@ def Recieve_request():
             speak("Opening Twitch")
             webbrowser.open("www.twitch.tv")
             continue
+        elif "open spotify" in request:
+            speak("opening spotify")
+            os.startfile(r'C:\Users\Jared\AppData\Roaming\Spotify\Spotify.exe')
+            continue
+        elif "open league of legends" in request:
+            speak("opening league of legends")
+            os.startfile(r'C:\Riot Games\Riot Client\RiotClientServices.exe')
+            continue
         elif "what is the time" in request:
             getTime()
             continue
         elif "what is the day" in request:
             getDay()
+            continue
+        elif "introduce yourself" in request:
+            speak("Yes, please introduce yourself so I can learn more about you")
             continue
         elif "what is your name" in request:
             speak("I am ahva, your personal assistant")
@@ -38,8 +52,7 @@ def Recieve_request():
         elif "goodbye" in request:
             speak("See you later")
             exit()
-    
-
+        
 # getting input from user and recognizing the command using speech recognition 
 def recieveCommand():
     # using the recongnizer method for speech recognition
