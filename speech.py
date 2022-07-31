@@ -2,7 +2,6 @@ from datetime import datetime
 from email.mime import audio
 from unittest.mock import NonCallableMagicMock
 import webbrowser
-import wikipedia
 import os
 import speech_recognition as sr 
 # importing all functions from actions file
